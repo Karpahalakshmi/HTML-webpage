@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fake News Detector Web App</title>
+        <meta charset="utf-8">
+        <meta name="viewport"  content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="css/style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script>
+         "use strict";
+         function submitForm(oFormElement) {
+             var xhr = new XMLHttpRequest();
+             xhr.onload = function() {
+                 var result = parseFloat(xhr.responseText);
+                 var resultElement = document.getElementById('result');
+                 if (result == 1) {
+                     resultElement.className = 'bg-danger';
+                     resultElement.innerHTML = 'This is FAKE!';
+                 } else {
+                     resultElement.className = 'bg-success';
+                     resultElement.innerHTML = 'This is TRUE!';
+                 }
+             }
+             xhr.open (oFormElement.method, oFormElement.action, true);
+             var review = document.getElementById('review');
+             xhr.send (review.value);
+             return false;
+         }
+        </script>
+
+<style>
+    .button {
+      background-color: #696969; /* Green */
+      border: inset;
+      color: white;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+    }
+    
+    .button1:hover {
+      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+    </style>
+
+    </head>
+    <body background="css/fact-check.png">
+
+        <div class="container">
+            <p style="font-size: 60px">Fake news detector</p>
+            <form method="POST"
+                  action="https://8e00hkx6d5.execute-api.us-east-2.amazonaws.com/prod"
+                  onsubmit="return submitForm(this);" >                     <!-- HERE IS WHERE YOU NEED TO ENTER THE API URL -->
+                <div class="form-group">
+                    <label for="review">News:</label>
+                    <textarea class="form-control"  rows="2" cols="50" id="review">Please write or copy your text here.</textarea>
+                </div>
+                <button type="submit" class="button button1">Submit</button>
+            </form>
+            <h1 class="bg-success" id="result"></h1>
+        </div>
+    </body>
+</html>
